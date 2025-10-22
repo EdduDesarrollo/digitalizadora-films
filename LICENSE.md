@@ -1,1 +1,1 @@
-Untitled © 1999 by Jane Doe is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+[Untitled](https://creativecommons.org/) © 1999 by [Jane Doe](https://creativecommons.org/) is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/)
