@@ -1,28 +1,8 @@
-#!/usr/bin/env python
-
-# python-gphoto2 - Python interface to libgphoto2
-# http://github.com/jim-easterbrook/python-gphoto2
-# Copyright (C) 2018-19  Jim Easterbrook  jim@jim-easterbrook.me.uk
+# Este archivo es parte de digitalizadora-films
 #
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-"""Simple time lapse script.
-
-This works OK with my Canon SLR, but will probably need changes to work
-with another camera.
-
-"""
+# Este software está licenciado bajo la Licencia Pública General GNU v3.0 o superior.
+# Una copia de la licencia se incluye en el archivo `LICENSE` de este directorio.
+# También está disponible en línea en: <https://www.gnu.org/licenses/gpl-3.0.html>.
 
 from __future__ import print_function
 
