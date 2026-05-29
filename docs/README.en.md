@@ -64,8 +64,6 @@ This process doesn't require a ticket printer; any generic thermal printer can b
 
 5. 3D printed parts are used to position the light source at the same height as the film feed point on the printer, along with guides to guide the film onto the window cut into the film holder.
 
-3D model of the 16mm film guide
-
 6. The camera with a macro lens is placed on the stand at a suitable height for framing the image. In our case, we used a stand from an old photographic enlarger to support the camera.
 
 <img width="400" height="605" alt="image7" src="https://github.com/user-attachments/assets/94201f88-8134-4422-a704-b85cb33fea67" />
