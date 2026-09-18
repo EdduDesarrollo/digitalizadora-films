@@ -1,3 +1,5 @@
+[Español](../README.md) | **English**
+
 # AGU printer film scanner
 Digitizing photochemical film is essential for all archives and collections.
 

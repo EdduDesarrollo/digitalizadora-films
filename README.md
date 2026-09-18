@@ -1,3 +1,5 @@
+**Español** | [English](docs/README.en.md)
+
 # AGU printer film scanner
 La digitalización de películas fotoquímicas es una necesidad de todos los archivos y colecciones.
 A pesar de que en los últimos años han bajado considerablemente los costos de los equipos necesarios, todavía es inaccesible para los archivos y colecciones pequeñas.
