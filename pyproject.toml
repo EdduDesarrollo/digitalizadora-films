@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "print_scanner_app"
+version = "1.0.1"
+description = "Print Scanner"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+debug-ui = [
+    "numpy>=1.24",
+    "opencv-python>=4.8",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["print_scanner_app/tests/unit", "print_scanner_app/tests/integration"]
+pythonpath = ["."]
+addopts = "-q --strict-markers --cov=print_scanner_app --cov-report=term-missing"
+markers = [
+    "integration: pruebas con hardware o entorno completo",
+    "hardware: E2E con cámara USB real (requiere DIGITALIZADORA_HARDWARE_TEST=1)",
+    "critical: suite mínima obligatoria (UT-6.2: RAW, políticas, descarga)",
+]
+
+[tool.coverage.run]
+source = ["print_scanner_app"]
+omit = [
+    "*/tests/*",
+    "*/ui/kivy_app.py",
+    "*/ui/widgets/menu_button.py",
+]
+
+[tool.coverage.report]
+exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:"]
+fail_under = 70
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["print_scanner_app*"]
+
+[tool.setuptools.package-data]
+"print_scanner_app.ui" = ["translations/*.json"]

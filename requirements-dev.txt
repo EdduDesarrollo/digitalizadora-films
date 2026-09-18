@@ -1,0 +1,7 @@
+pytest>=7.4
+pytest-cov>=4.1
+pytest-mock>=3.12
+# Dominio (perforación) y tests UI; mismo mínimo que requirements-runtime.txt
+Pillow>=10.0
+# Tests de alineación / umbralización (import a nivel de módulo)
+numpy>=1.24

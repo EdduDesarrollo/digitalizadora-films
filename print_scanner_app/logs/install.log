@@ -1,0 +1,88 @@
+2026-04-06 12:58:37,085 | INFO | Modo dry-run / check
+2026-04-06 12:58:37,086 | INFO | Reporte dependencias ok=True
+2026-04-06 13:29:11,215 | INFO | Modo dry-run / check
+2026-04-06 13:29:11,215 | INFO | Reporte dependencias ok=True
+2026-05-19 15:04:50,647 | INFO | Modo dry-run / check
+2026-05-19 15:04:50,648 | INFO | Reporte dependencias ok=True
+2026-05-19 15:07:04,705 | INFO | Modo dry-run / check
+2026-05-19 15:07:04,706 | INFO | Reporte dependencias ok=True
+2026-05-19 15:07:04,706 | INFO | dry-run: instalaría apt (requeridos): ['build-essential', 'python3-dev', 'python3-pip', 'python3-venv', 'gphoto2', 'libgphoto2-dev', 'xclip', 'usbutils', 'libsdl2-dev', 'libsdl2-image-dev', 'libsdl2-mixer-dev', 'libsdl2-ttf-dev', 'libportmidi-dev', 'libswscale-dev', 'libavformat-dev', 'libavcodec-dev', 'zlib1g-dev']
+2026-05-19 15:07:04,706 | INFO | dry-run: instalaría apt (opcionales): ['entangle']
+2026-09-03 14:01:17,676 | INFO | Kivy: v2.2.1
+2026-09-03 14:01:17,678 | INFO | Logger: Record log in /home/cintel/.kivy/logs/kivy_26-09-03_7.txt
+2026-09-03 14:01:17,678 | INFO | Kivy: Installed at "/usr/lib/python3/dist-packages/kivy/__init__.py"
+2026-09-03 14:01:17,678 | INFO | Python: v3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]
+2026-09-03 14:01:17,678 | INFO | Python: Interpreter at "/usr/bin/python3"
+2026-09-03 14:01:17,678 | INFO | Logger: Purge log fired. Processing...
+2026-09-03 14:01:17,679 | INFO | Logger: Purge finished!
+2026-09-03 14:01:17,799 | INFO | Reporte dependencias ok=True
+2026-09-03 14:01:17,799 | INFO | apt update OK
+2026-09-03 14:01:17,799 | INFO | Reparación apt/dpkg OK
+2026-09-03 14:01:17,799 | INFO | apt install OK (requeridos): xclip, libsdl2-dev, libsdl2-image-dev, libsdl2-mixer-dev, libsdl2-ttf-dev, libportmidi-dev, libswscale-dev, libavformat-dev, libavcodec-dev
+2026-09-03 14:01:17,799 | INFO | apt (opcionales): ya instalados — entangle
+2026-09-03 14:01:17,799 | INFO | Regla udev instalada
+2026-09-03 14:01:17,799 | INFO | udevadm trigger (código de salida 1)
+2026-09-03 14:01:17,800 | INFO | udevadm trigger (código de salida 1)
+2026-09-03 14:01:17,800 | INFO | chmod a+rw OK: /dev/usb/lp0
+2026-09-03 14:01:17,800 | INFO | Usuario cintel ya está en el grupo lp
+2026-09-03 14:01:17,813 | INFO | Escrito /home/cintel/Escritorio/Thermal Scanner.desktop y /home/cintel/.local/share/applications/thermal-scanner-modular.desktop
+2026-09-18 13:45:53,320 | INFO | Kivy: v2.2.1
+2026-09-18 13:45:53,320 | INFO | Logger: Record log in /home/cintel/.kivy/logs/kivy_26-09-18_13.txt
+2026-09-18 13:45:53,321 | INFO | Kivy: Installed at "/usr/lib/python3/dist-packages/kivy/__init__.py"
+2026-09-18 13:45:53,321 | INFO | Python: v3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]
+2026-09-18 13:45:53,321 | INFO | Python: Interpreter at "/usr/bin/python3"
+2026-09-18 13:45:53,321 | INFO | Logger: Purge log fired. Processing...
+2026-09-18 13:45:53,322 | INFO | Logger: Purge finished!
+2026-09-18 13:45:53,419 | INFO | Reporte dependencias ok=True
+2026-09-18 13:45:53,420 | INFO | apt update OK
+2026-09-18 13:45:53,420 | INFO | Reparación apt/dpkg OK
+2026-09-18 13:45:53,420 | INFO | apt (requeridos): ya instalados — build-essential, python3-dev, python3-pip, gphoto2, libgphoto2-dev, xclip, usbutils, libsdl2-dev, libsdl2-image-dev, libsdl2-mixer-dev, libsdl2-ttf-dev, libportmidi-dev, libswscale-dev, libavformat-dev, libavcodec-dev, zlib1g-dev
+2026-09-18 13:45:53,420 | INFO | apt (opcionales): ya instalados — entangle
+2026-09-18 13:45:53,420 | INFO | Regla udev ya presente: /etc/udev/rules.d/99-thermal-scanner-lp.rules
+2026-09-18 13:45:53,420 | INFO | udevadm trigger (código de salida 1)
+2026-09-18 13:45:53,420 | INFO | udevadm trigger (código de salida 1)
+2026-09-18 13:45:53,420 | INFO | chmod a+rw OK: /dev/usb/lp0
+2026-09-18 13:45:53,420 | INFO | Usuario cintel ya está en el grupo lp
+2026-09-18 13:45:53,434 | INFO | Escrito /home/cintel/Escritorio/Print Scanner.desktop y /home/cintel/.local/share/applications/print-scanner-app.desktop
+2026-09-18 13:46:00,878 | INFO | Modo dry-run / check
+2026-09-18 13:46:00,889 | ERROR | Core: option --check not recognized
+2026-09-18 13:46:00,890 | INFO | Logger: Record log in /home/cintel/.kivy/logs/kivy_26-09-18_14.txt
+2026-09-18 13:47:08,429 | INFO | Kivy: v2.2.1
+2026-09-18 13:47:08,430 | INFO | Logger: Record log in /home/cintel/.kivy/logs/kivy_26-09-18_15.txt
+2026-09-18 13:47:08,430 | INFO | Kivy: Installed at "/usr/lib/python3/dist-packages/kivy/__init__.py"
+2026-09-18 13:47:08,430 | INFO | Python: v3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]
+2026-09-18 13:47:08,430 | INFO | Python: Interpreter at "/usr/bin/python3"
+2026-09-18 13:47:08,430 | INFO | Logger: Purge log fired. Processing...
+2026-09-18 13:47:08,431 | INFO | Logger: Purge finished!
+2026-09-18 13:47:08,520 | INFO | Reporte dependencias ok=True
+2026-09-18 13:47:08,521 | INFO | apt update OK
+2026-09-18 13:47:08,521 | INFO | Reparación apt/dpkg OK
+2026-09-18 13:47:08,521 | INFO | apt (requeridos): ya instalados — build-essential, python3-dev, python3-pip, gphoto2, libgphoto2-dev, xclip, usbutils, libsdl2-dev, libsdl2-image-dev, libsdl2-mixer-dev, libsdl2-ttf-dev, libportmidi-dev, libswscale-dev, libavformat-dev, libavcodec-dev, zlib1g-dev
+2026-09-18 13:47:08,521 | INFO | apt (opcionales): ya instalados — entangle
+2026-09-18 13:47:08,522 | INFO | Regla udev ya presente: /etc/udev/rules.d/99-thermal-scanner-lp.rules
+2026-09-18 13:47:08,522 | INFO | udevadm trigger (código de salida 1)
+2026-09-18 13:47:08,522 | INFO | udevadm trigger (código de salida 1)
+2026-09-18 13:47:08,523 | INFO | chmod a+rw OK: /dev/usb/lp0
+2026-09-18 13:47:08,523 | INFO | Usuario cintel ya está en el grupo lp
+2026-09-18 13:47:08,539 | INFO | Escrito /home/cintel/Escritorio/Print Scanner.desktop y /home/cintel/.local/share/applications/print-scanner-app.desktop
+2026-09-18 13:47:15,902 | INFO | Modo dry-run / check
+2026-09-18 13:47:15,913 | ERROR | Core: option --check not recognized
+2026-09-18 13:47:15,913 | INFO | Logger: Record log in /home/cintel/.kivy/logs/kivy_26-09-18_16.txt
+2026-09-18 13:48:03,517 | INFO | Kivy: v2.2.1
+2026-09-18 13:48:03,517 | INFO | Logger: Record log in /home/cintel/.kivy/logs/kivy_26-09-18_17.txt
+2026-09-18 13:48:03,517 | INFO | Kivy: Installed at "/usr/lib/python3/dist-packages/kivy/__init__.py"
+2026-09-18 13:48:03,517 | INFO | Python: v3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]
+2026-09-18 13:48:03,517 | INFO | Python: Interpreter at "/usr/bin/python3"
+2026-09-18 13:48:03,518 | INFO | Logger: Purge log fired. Processing...
+2026-09-18 13:48:03,518 | INFO | Logger: Purge finished!
+2026-09-18 13:48:03,612 | INFO | Reporte dependencias ok=True
+2026-09-18 13:48:03,613 | INFO | apt update OK
+2026-09-18 13:48:03,613 | INFO | Reparación apt/dpkg OK
+2026-09-18 13:48:03,613 | INFO | apt (requeridos): ya instalados — build-essential, python3-dev, python3-pip, gphoto2, libgphoto2-dev, xclip, usbutils, libsdl2-dev, libsdl2-image-dev, libsdl2-mixer-dev, libsdl2-ttf-dev, libportmidi-dev, libswscale-dev, libavformat-dev, libavcodec-dev, zlib1g-dev
+2026-09-18 13:48:03,613 | INFO | apt (opcionales): ya instalados — entangle
+2026-09-18 13:48:03,613 | INFO | Regla udev ya presente: /etc/udev/rules.d/99-thermal-scanner-lp.rules
+2026-09-18 13:48:03,613 | INFO | udevadm trigger (código de salida 1)
+2026-09-18 13:48:03,613 | INFO | udevadm trigger (código de salida 1)
+2026-09-18 13:48:03,613 | INFO | chmod a+rw OK: /dev/usb/lp0
+2026-09-18 13:48:03,613 | INFO | Usuario cintel ya está en el grupo lp
+2026-09-18 13:48:03,629 | INFO | Escrito /home/cintel/Escritorio/Print Scanner.desktop y /home/cintel/.local/share/applications/print-scanner-app.desktop

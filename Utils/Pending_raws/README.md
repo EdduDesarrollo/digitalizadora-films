@@ -1,0 +1,1 @@
+## Aquí se va van a generar archivos .txt con los nombres de las imagenes pendientes de descarga ##

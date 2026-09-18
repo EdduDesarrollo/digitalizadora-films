@@ -1,0 +1,20 @@
+# Ejecutar la app (print_scanner_app/app/main.py). Instalación recomendada:
+#   python3 print_scanner_app/installer/install.py
+# o manualmente:
+#   pip install -r requirements-runtime.txt
+#
+# Pillow: dominio (perforación), vistas Kivy, impresora ESC/POS.
+Pillow>=10.0
+#
+# Cámara USB (bindings Python sobre libgphoto2; requiere libgphoto2-dev vía apt).
+gphoto2>=2.5.0
+#
+# Impresora térmica ESC/POS.
+python-escpos>=3.0
+#
+# UI principal.
+kivy>=2.2.0
+#
+# Opcionales: ventanas de debug de alineación (cv2.imshow + numpy).
+numpy>=1.24
+opencv-python>=4.8
