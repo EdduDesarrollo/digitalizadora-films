@@ -116,8 +116,7 @@ Una desventaja es que, por el momento, el sistema solamente puede utilizarse en 
 Como se mencionó anteriormente, este es un proyecto en desarrollo. Tras ponerlo a prueba durante los últimos meses identificamos algunas mejoras a realizar:
 
 Motorizar los carretes de alimentación de película.
-Desarrollar la a adaptación para películas de 35 y 8 mm
-Mejorar el soporte de la cámara.
+Desarrollar la a adaptación para películas de 35 y 8 mm.
 Mejoras estéticas en la interfaz de usuario.
 
 
