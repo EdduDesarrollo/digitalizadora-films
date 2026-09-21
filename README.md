@@ -75,7 +75,7 @@ Modelo 3d de la guía para película de 16 mm
 
 ## Software
 
-<img width="400" height="250" alt="image8" src="https://github.com/user-attachments/assets/c68448fa-8f84-40d0-b1d9-6abe2b21a64f" />
+<img width="400" height="250" alt="Print-Scanner_es" src="https://github.com/user-attachments/assets/fe478d26-8ccc-47aa-8b37-dfd6b95011c1" />
 
 
 Todo el sistema se maneja con un script de python que controla la cámara mediante la librería gphoto2 y manipula las imágenes mediante opencv. Por el momento este script funciona sólo sobre sistema operativo linux pero es posible portarlo a macOS.
