@@ -74,7 +74,8 @@ This process doesn't require a ticket printer; any generic thermal printer can b
 
 ## Software
 
-<img width="400" height="250" alt="image8" src="https://github.com/user-attachments/assets/c68448fa-8f84-40d0-b1d9-6abe2b21a64f" />
+<img width="400" height="250" alt="Print-Scanner_en" src="https://github.com/user-attachments/assets/5ecd8ca8-35b2-4c0c-b19b-44f6ae68849c" />
+
 
 The entire system is managed by a Python script that controls the camera using the gphoto2 library and manipulates the images using OpenCV. Currently, this script only works on Linux operating systems, but it is possible to port it to macOS.
 
