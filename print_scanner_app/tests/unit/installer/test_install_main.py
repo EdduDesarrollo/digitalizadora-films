@@ -103,9 +103,9 @@ def test_main_writes_desktop_when_not_dry_run(monkeypatch: pytest.MonkeyPatch, f
     )
 
     assert install_mod.main([]) == 0
-    assert (desk / "Print Scanner.desktop").is_file()
+    assert (desk / "print_scanner.desktop").is_file()
     assert (apps / "print-scanner-app.desktop").is_file()
-    assert "Name=Print Scanner" in (desk / "Print Scanner.desktop").read_text(encoding="utf-8")
+    assert "Name=Print Scanner" in (desk / "print_scanner.desktop").read_text(encoding="utf-8")
 
 
 def test_main_returns_3_when_desktop_write_fails(monkeypatch: pytest.MonkeyPatch, fake_repo_root: Path):
@@ -145,7 +145,7 @@ def test_desktop_only_flag(monkeypatch: pytest.MonkeyPatch, fake_repo_root: Path
         lambda: apps,
     )
     assert install_mod.main(["--desktop-only"]) == 0
-    assert (desk / "Print Scanner.desktop").is_file()
+    assert (desk / "print_scanner.desktop").is_file()
 
 
 def test_default_run_invokes_subprocess(monkeypatch: pytest.MonkeyPatch):

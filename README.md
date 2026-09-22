@@ -78,9 +78,15 @@ Modelo 3d de la guía para película de 16 mm
 <img width="400" height="250" alt="Print-Scanner_es" src="https://github.com/user-attachments/assets/fe478d26-8ccc-47aa-8b37-dfd6b95011c1" />
 
 
-Todo el sistema se maneja con un script de python que controla la cámara mediante la librería gphoto2 y manipula las imágenes mediante opencv. Por el momento este script funciona sólo sobre sistema operativo linux pero es posible portarlo a macOS.
+Todo el sistema se maneja con una app que controla la cámara mediante la librería gphoto2 y manipula las imágenes mediante opencv. Por el momento, esta app funciona sólo sobre sistema operativo linux pero es posible portarlo a macOS.
 
-Cuando se comienza a utilizar el software, es necesario ingresar el código de referencia a escanear e indicar la ruta donde se van a guardar las imágenes de los cuadros. Luego, se debe seleccionar el formato de la película. Por el momento, el sistema funciona con películas de 16 mm (se está trabajando para incluir también las de 35 mm, aunque aún no se ha puesto a prueba con el acervo del archivo). En el futuro también se podrá trabajar con películas de 8mm y Súper 8.
+Cuando se comienza a utilizar el software por primera vez, es necesario ingresar:
+
+1. Número de serie de la cámara
+2. El prefijo del código de referencia (Ej: UY-UDELAR-AGU-AIH). Todo nuestro acervo está dentro de este código por lo que lo usamos como prefijo para todas las digitalizaciones.
+3. Seleccionar el directorio donde se van a guardar las imágenes.
+4. Ingresar el código de referencia a escanear (Lo que seguiría luego del prefijo - Ej: I-AGU-02-01)
+5. Luego, se debe seleccionar el formato de la película. Por el momento, el sistema funciona con películas de 16 mm (se está trabajando para incluir también las de 35 mm, aunque aún no se ha puesto a prueba con el acervo del archivo). En el futuro también se podrá trabajar con películas de 8mm y Súper 8.
  
  
 Una vez que se selecciona el formato, en la interfaz del programa se verá el liveview  (visualización en directo) que toma la cámara con tres líneas azules superpuestas al liveview, que sirven para alinear la cámara con la película, el área en rojo donde el sistema buscará la perforación, además de algunos botones de configuración y reproducción  en la parte inferior derecha de la pantalla y en la parte inferior cuatro botones (digitalizar, pausa, mover 1px y Frame x Frame).
@@ -107,7 +113,7 @@ Una vez que el escaneo de la película está finalizado, se obtiene una secuenci
 
 La principal ventaja de este sistema es su bajo costo. El componente más caro es la cámara fotográfica, aunque puede utilizarse un cámara sencilla que cumpla con los requisitos de ser compatible con gphoto 2 y contar con un lente macro. Al tratarse de un sistema modular, puede mejorarse progresivamente si se dispone de un presupuesto mayor. En el AGU se utilizó una cámara sin espejo ya descontinuada, de 32 megapíxeles, suficiente para obtener una resolución de 4K (aprox. USD 700), un lente de 50mm (aprox. USD 300) y aros de extensión (aprox. USD 100). La computadora empleada es una de las disponibles en el archivo, con una antigüedad de cuatro años. Las piezas impresas en 3D se produjeron con un equipo muy sencillo, que costó unos USD 300, aunque también pueden fabricarse mediante servicios externos de impresión.
 
-Otra ventaja es su sencillez, dado que no es necesario contar con un conocimiento avanzado de informática para instalar y operar el sistema. El sistema también destaca por su versatilidad. Si bien el diseño se desarrolló inicialmente para la digitalización de películas de 16mm, que conforman la parte más voluminosa del acervo del AGU, es posible adaptar las guías y el script para otros formatos.
+Otra ventaja es su sencillez, dado que no es necesario contar con un conocimiento avanzado de informática para instalar y operar el sistema. El sistema también destaca por su versatilidad. Si bien el diseño se desarrolló inicialmente para la digitalización de películas de 16mm, que conforman la parte más voluminosa del acervo del AGU, es posible adaptar las guías y la app para otros formatos.
 
 Una desventaja es que, por el momento, el sistema solamente puede utilizarse en Ubuntu. Aunque es posible migrarlo a macOS mediante algunas modificaciones, aún no puede ejecutarse en Windows, dado que la librería gphoto2 no es compatible con ese entorno.
  
@@ -120,30 +126,45 @@ Desarrollar la a adaptación para películas de 35 y 8 mm.
 Mejoras estéticas en la interfaz de usuario.
 
 
-## Guía de Configuración y Ejecución del Script
+## Guía de Instalación, Configuración y Ejecución de la app
 
-Este documento proporciona los pasos necesarios para preparar y ejecutar el script correctamente.
+Este documento proporciona los pasos necesarios para preparar y ejecutar la app correctamente.
 
 ## Paso 1: Instalar Python 3
 
-Asegúrate de tener Python 3 instalado en tu sistema. Puedes descargarlo e instalarlo desde el sitio oficial de Python: [python.org](https://www.python.org/downloads/).
-
-## Paso 2: Obtener el Número de Serie de la Cámara Usando la Terminal
-
-1. **Instalar `gphoto2` (si no está instalado):**
-
-   Abre una terminal y ejecuta el siguiente comando para instalar `gphoto2`:
+Asegúrate de tener Python 3 instalado en tu sistema. Puedes instalarlo descargandolo desde apt usando la terminal.
 
    ```bash
    sudo apt update
-   sudo apt install gphoto2
+   sudo apt install python3 python3-pip
    ```
 
-2. **Conectar la Cámara:**
+Para corroborar que python3 haya sido instalado correctamente puedes ejectuar el siguiente comando en la terminal:
+   ```bash
+   python3 --version
+   ```
+
+## Paso 2: Instalar dependencias de la app
+
+1. **Instalar paquetes del sistema y accesso directo:**
+
+   Abre una terminal y ejecuta el siguiente comando, desde la raíz del repositorio, para instalar las dependencias de la app:
+
+   ```bash
+   python3 print_scanner_app/installer/install.py
+   ```
+
+2. **Verificar el Acceso Directo:**
+
+   Ahora deberías ver el acceso directo en tu escritorio. Haz doble clic para ejecutar el programa.
+
+## Paso 3: Obtener el Número de Serie de la Cámara Usando la Terminal
+
+1. **Conectar la Cámara:**
 
    Asegúrate de que tu cámara esté conectada al puerto USB de tu computadora.
 
-3. **Listar Dispositivos Conectados:**
+2. **Listar Dispositivos Conectados:**
 
    Ejecuta el siguiente comando para listar los dispositivos conectados y verificar que tu cámara sea reconocida:
 
@@ -153,7 +174,7 @@ Asegúrate de tener Python 3 instalado en tu sistema. Puedes descargarlo e insta
 
    Esto debería mostrar una lista de dispositivos conectados, incluyendo tu cámara.
 
-4. **Obtener el Número de Serie:**
+3. **Obtener el Número de Serie:**
 
    Una vez que hayas confirmado que la cámara está conectada y reconocida, ejecuta el siguiente comando para obtener el número de serie:
 
@@ -163,7 +184,9 @@ Asegúrate de tener Python 3 instalado en tu sistema. Puedes descargarlo e insta
 
    Este comando debería devolver el número de serie de la cámara.
 
-5. **Actualizar el Archivo `config.json`:**
+   Al iniciar el programa te pedirá el número de serie de la cámara si no está configurado en el archivo config.json
+
+4. (Opcional) **Actualizar el Archivo `config.json`:**
 
    Abre el archivo `config.json` y actualiza el campo `"CAMARA"` con el número de serie obtenido:
 
@@ -172,49 +195,6 @@ Asegúrate de tener Python 3 instalado en tu sistema. Puedes descargarlo e insta
        "CAMARA": "tu_numero_de_serie_aqui"
    }
    ```
-
-## Paso 3: Crear el Ejecutable en el Escritorio
-
-Para crear un acceso directo en el escritorio que ejecute el script, sigue estos pasos:
-
-1. **Crear un Archivo de Escritorio:**
-
-   Crea un nuevo archivo con extensión `.desktop` en tu escritorio. Puedes hacerlo usando un editor de texto o desde la terminal:
-
-   ```bash
-   touch ~/Escritorio/digitalizar_film.desktop
-   ```
-
-2. **Editar el Archivo `.desktop`:**
-
-   Abre el archivo `.desktop` y agrega el siguiente contenido, ajustando los campos según sea necesario:
-
-   ```ini
-   [Desktop Entry]
-    Version=1.0
-    Type=Application
-    Name=Digitalizadora films
-    Comment=Ejecutar digitalizar-film.py
-    Exec=gnome-terminal -- bash -c "python3
-    /home/NOMBRE_USUARIO/Escritorio/digitalizadoraFilms/digitalizar-film.py"
-    Icon=/home/NOMBRE_USUARIO/Escritorio/digitalizadoraFilms/Utils/Iconos/film_icon.png
-    Terminal=false
-    Categories=Utility;
-   ```
-
-   Asegúrate de reemplazar `/home/NOMBRE_USUARIO/Escritorio/digitalizadoraFilms/digitalizar-film.py"` con la ruta real a tu script y `/home/NOMBRE_USUARIO/Escritorio/digitalizadoraFilms/Utils/Iconos/film_icon.png` con la ruta a un icono si lo deseas.
-
-3. **Hacer el Archivo Ejecutable:**
-
-   Cambia los permisos del archivo para hacerlo ejecutable:
-
-   ```bash
-   chmod +x ~/Escritorio/digitalizar_film.desktop
-   ```
-
-4. **Verificar el Acceso Directo:**
-
-   Ahora deberías ver el acceso directo en tu escritorio. Haz doble clic para ejecutar el script.
 
 ---
 

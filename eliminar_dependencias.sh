@@ -44,7 +44,7 @@ PIP_PACKAGES=(
 )
 
 DESKTOP_NAMES=(
-    "Print Scanner.desktop"
+    "print_scanner.desktop"
     "Thermal Scanner.desktop"
     "print-scanner-app.desktop"
     "thermal-scanner-modular.desktop"

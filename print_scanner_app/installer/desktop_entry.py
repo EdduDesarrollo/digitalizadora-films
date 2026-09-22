@@ -100,6 +100,7 @@ def install_launcher(
     repo_root: Path,
     python_executable: str,
     app_name: str = "Print Scanner",
+    desktop_path_name: str = "print_scanner.desktop",
 ) -> tuple[Path, Path]:
     """
     Crea acceso directo en el escritorio y entrada en el menú de aplicaciones.
@@ -116,7 +117,7 @@ def install_launcher(
         icon_path=icon,
         working_dir=str(repo_root.resolve()),
     )
-    desktop_path = user_desktop_dir() / f"{app_name}.desktop"
+    desktop_path = user_desktop_dir() / f"{desktop_path_name}.desktop"
     apps_path = user_applications_dir() / "print-scanner-app.desktop"
     write_desktop(desktop_path, content)
     write_desktop(apps_path, content)

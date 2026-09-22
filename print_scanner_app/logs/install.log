@@ -86,3 +86,39 @@
 2026-09-18 13:48:03,613 | INFO | chmod a+rw OK: /dev/usb/lp0
 2026-09-18 13:48:03,613 | INFO | Usuario cintel ya está en el grupo lp
 2026-09-18 13:48:03,629 | INFO | Escrito /home/cintel/Escritorio/Print Scanner.desktop y /home/cintel/.local/share/applications/print-scanner-app.desktop
+2026-09-22 13:26:45,658 | INFO | Kivy: v2.3.1
+2026-09-22 13:26:45,658 | INFO | Logger: Record log in /home/agu/.kivy/logs/kivy_26-09-22_0.txt
+2026-09-22 13:26:45,658 | INFO | Kivy: Installed at "/home/agu/.local/lib/python3.12/site-packages/kivy/__init__.py"
+2026-09-22 13:26:45,658 | INFO | Python: v3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]
+2026-09-22 13:26:45,658 | INFO | Python: Interpreter at "/usr/bin/python3"
+2026-09-22 13:26:45,658 | INFO | Logger: Purge log fired. Processing...
+2026-09-22 13:26:45,659 | INFO | Logger: Purge finished!
+2026-09-22 13:27:14,955 | INFO | Reporte dependencias ok=True
+2026-09-22 13:27:14,955 | INFO | apt update OK
+2026-09-22 13:27:14,955 | INFO | Reparación apt/dpkg OK
+2026-09-22 13:27:14,955 | INFO | apt install OK (requeridos): build-essential, python3-dev, gphoto2, libgphoto2-dev, xclip, usbutils, libsdl2-dev, libsdl2-image-dev, libsdl2-mixer-dev, libsdl2-ttf-dev, libportmidi-dev, libswscale-dev, libavformat-dev, libavcodec-dev, zlib1g-dev
+2026-09-22 13:27:14,955 | INFO | apt install OK (opcionales): entangle
+2026-09-22 13:27:14,956 | INFO | pip install OK (/home/agu/Documentos/digitalizadora-films/requirements-runtime.txt)
+2026-09-22 13:27:14,956 | INFO | Regla udev instalada
+2026-09-22 13:27:14,956 | INFO | udevadm trigger (código de salida 1)
+2026-09-22 13:27:14,956 | INFO | udevadm trigger (código de salida 1)
+2026-09-22 13:27:14,956 | INFO | Usuario agu ya está en el grupo lp
+2026-09-22 13:27:14,979 | INFO | Escrito /home/agu/Escritorio/print_scanner.desktop y /home/agu/.local/share/applications/print-scanner-app.desktop
+2026-09-22 13:30:35,936 | INFO | Kivy: v2.3.1
+2026-09-22 13:30:35,936 | INFO | Logger: Record log in /home/agu/.kivy/logs/kivy_26-09-22_1.txt
+2026-09-22 13:30:35,936 | INFO | Kivy: Installed at "/home/agu/.local/lib/python3.12/site-packages/kivy/__init__.py"
+2026-09-22 13:30:35,937 | INFO | Python: v3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]
+2026-09-22 13:30:35,937 | INFO | Python: Interpreter at "/usr/bin/python3"
+2026-09-22 13:30:35,937 | INFO | Logger: Purge log fired. Processing...
+2026-09-22 13:30:35,937 | INFO | Logger: Purge finished!
+2026-09-22 13:30:39,392 | INFO | Reporte dependencias ok=True
+2026-09-22 13:30:39,395 | INFO | apt update OK
+2026-09-22 13:30:39,396 | INFO | Reparación apt/dpkg OK
+2026-09-22 13:30:39,397 | INFO | apt install OK (requeridos): build-essential, python3-dev, gphoto2, libgphoto2-dev, xclip, usbutils, libsdl2-dev, libsdl2-image-dev, libsdl2-mixer-dev, libsdl2-ttf-dev, libportmidi-dev, libswscale-dev, libavformat-dev, libavcodec-dev, zlib1g-dev
+2026-09-22 13:30:39,398 | INFO | apt install OK (opcionales): entangle
+2026-09-22 13:30:39,400 | INFO | pip install OK (/home/agu/Documentos/digitalizadora-films/requirements-runtime.txt)
+2026-09-22 13:30:39,400 | INFO | Regla udev instalada
+2026-09-22 13:30:39,401 | INFO | udevadm trigger (código de salida 1)
+2026-09-22 13:30:39,403 | INFO | udevadm trigger (código de salida 1)
+2026-09-22 13:30:39,403 | INFO | Usuario agu ya está en el grupo lp
+2026-09-22 13:30:39,433 | INFO | Escrito /home/agu/Escritorio/print_scanner.desktop.desktop y /home/agu/.local/share/applications/print-scanner-app.desktop
