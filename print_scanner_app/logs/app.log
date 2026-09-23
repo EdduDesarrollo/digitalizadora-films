@@ -9879,3 +9879,27 @@
 2026-09-23 13:21:17,261 | INFO | print_scanner_app | Sesión cámara: config_ok=True invariant_ok=True model_mismatch=False applied=0 failed=0 apply_saved_config=False
 2026-09-23 13:21:19,346 | INFO | print_scanner_app | Directorio abierto
 2026-09-23 13:21:28,539 | INFO | print_scanner_app | ExitAppUseCase ejecutado: ok=True
+2026-09-23 13:22:47,018 | INFO | print_scanner_app | Iniciando UI (Kivy)...
+2026-09-23 13:23:42,403 | INFO | print_scanner_app | CAMARA actualizado en config
+2026-09-23 13:23:49,992 | INFO | print_scanner_app | PREFIJO_ARCHIVO actualizado en config
+2026-09-23 13:23:57,900 | INFO | print_scanner_app | CODIGO_REFERENCIA actualizado (sesión pendientes: nuevo archivo)
+2026-09-23 13:23:59,151 | INFO | print_scanner_app | Formato activo: 16mm
+2026-09-23 13:24:06,994 | WARNING | print_scanner_app | Warning! No se pudo configurar la camara. Revisar configuración manualmente.
+2026-09-23 13:24:06,994 | INFO | print_scanner_app | Sesión cámara: config_ok=True invariant_ok=False model_mismatch=False applied=0 failed=0 apply_saved_config=True
+2026-09-23 13:24:10,728 | INFO | print_scanner_app | Sesión cámara: config_ok=True invariant_ok=True model_mismatch=False applied=0 failed=0 apply_saved_config=False
+2026-09-23 13:24:22,505 | INFO | print_scanner_app | Sesión cámara: config_ok=True invariant_ok=True model_mismatch=False applied=0 failed=0 apply_saved_config=False
+2026-09-23 13:24:22,510 | INFO | print_scanner_app | CR3 baseline=(vacío→_MG_0001) next_predicted=_MG_0001.CR3
+2026-09-23 13:24:22,510 | INFO | print_scanner_app | Digitación: iniciada / reanudada
+2026-09-23 13:24:22,813 | INFO | print_scanner_app | DBG-ALIGN step_applied move_px=1
+2026-09-23 13:24:22,978 | INFO | print_scanner_app | DBG-ALIGN step_applied move_px=1
+2026-09-23 13:24:23,158 | INFO | print_scanner_app | DBG-ALIGN step_applied move_px=1
+2026-09-23 13:24:26,748 | INFO | print_scanner_app | CR3 confirmado en tarjeta: _MG_0001.CR3 (unconfirmed=0)
+2026-09-23 13:24:26,957 | INFO | print_scanner_app | DBG-ALIGN step_applied move_px=1
+2026-09-23 13:24:27,136 | INFO | print_scanner_app | DBG-ALIGN step_applied move_px=1
+2026-09-23 13:24:27,306 | INFO | print_scanner_app | DBG-ALIGN step_applied move_px=1
+2026-09-23 13:24:27,483 | INFO | print_scanner_app | DBG-ALIGN step_applied move_px=1
+2026-09-23 13:24:27,656 | INFO | print_scanner_app | DBG-ALIGN step_applied move_px=1
+2026-09-23 13:24:27,836 | INFO | print_scanner_app | DBG-ALIGN step_applied move_px=1
+2026-09-23 13:24:29,297 | INFO | print_scanner_app | Digitación: en pausa
+2026-09-23 13:24:32,835 | INFO | print_scanner_app | Sesión cámara: config_ok=True invariant_ok=True model_mismatch=False applied=0 failed=0 apply_saved_config=False
+2026-09-23 13:24:35,761 | INFO | print_scanner_app | ExitAppUseCase ejecutado: ok=True
