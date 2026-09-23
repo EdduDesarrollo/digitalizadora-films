@@ -122,3 +122,20 @@
 2026-09-22 13:30:39,403 | INFO | udevadm trigger (código de salida 1)
 2026-09-22 13:30:39,403 | INFO | Usuario agu ya está en el grupo lp
 2026-09-22 13:30:39,433 | INFO | Escrito /home/agu/Escritorio/print_scanner.desktop.desktop y /home/agu/.local/share/applications/print-scanner-app.desktop
+2026-09-23 13:17:31,338 | INFO | Kivy: v2.3.1
+2026-09-23 13:17:31,338 | INFO | Logger: Record log in /home/agu/.kivy/logs/kivy_26-09-23_4.txt
+2026-09-23 13:17:31,338 | INFO | Kivy: Installed at "/home/agu/.local/lib/python3.12/site-packages/kivy/__init__.py"
+2026-09-23 13:17:31,338 | INFO | Python: v3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]
+2026-09-23 13:17:31,338 | INFO | Python: Interpreter at "/usr/bin/python3"
+2026-09-23 13:17:31,339 | INFO | Logger: Purge log fired. Processing...
+2026-09-23 13:17:31,339 | INFO | Logger: Purge finished!
+2026-09-23 13:17:31,458 | INFO | Reporte dependencias ok=True
+2026-09-23 13:17:31,458 | INFO | apt update OK
+2026-09-23 13:17:31,458 | INFO | Reparación apt/dpkg OK
+2026-09-23 13:17:31,458 | INFO | apt (requeridos): ya instalados — build-essential, python3-dev, python3-pip, gphoto2, libgphoto2-dev, xclip, usbutils, libsdl2-dev, libsdl2-image-dev, libsdl2-mixer-dev, libsdl2-ttf-dev, libportmidi-dev, libswscale-dev, libavformat-dev, libavcodec-dev, zlib1g-dev
+2026-09-23 13:17:31,458 | INFO | apt (opcionales): ya instalados — entangle
+2026-09-23 13:17:31,458 | INFO | Regla udev ya presente: /etc/udev/rules.d/99-thermal-scanner-lp.rules
+2026-09-23 13:17:31,458 | INFO | udevadm trigger (código de salida 1)
+2026-09-23 13:17:31,459 | INFO | udevadm trigger (código de salida 1)
+2026-09-23 13:17:31,459 | INFO | Usuario agu ya está en el grupo lp
+2026-09-23 13:17:31,474 | INFO | Escrito /home/agu/Escritorio/print_scanner.desktop.desktop y /home/agu/.local/share/applications/print-scanner-app.desktop

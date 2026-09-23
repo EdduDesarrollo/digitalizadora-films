@@ -2003,10 +2003,13 @@ def test_increment_and_set_frame_persist_numero_frame(tmp_path, test_logger):
     c = Container(tmp_path, "nf3", test_logger)
     p = AppPresenter(container=c, logger=test_logger)
     p.hydrate_numero_frame_from_config()
+    assert p.get_frame() == 1
     assert p.increment_frame(2) == 3
+    assert p.get_frame() == 3
     data = json.loads((tmp_path / "config.json").read_text(encoding="utf-8"))
     assert data.get("NUMERO_FRAME") == 3
     assert p.set_frame(10) == 10
+    assert p.get_frame() == 10
     data = json.loads((tmp_path / "config.json").read_text(encoding="utf-8"))
     assert data.get("NUMERO_FRAME") == 10
 

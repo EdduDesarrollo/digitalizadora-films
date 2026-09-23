@@ -7,6 +7,7 @@ from typing import Callable
 from print_scanner_app.application.session_naming import normalized_prefijo_archivo
 from print_scanner_app.ui.dialogs.error_dialogs import ErrorDialogs
 from print_scanner_app.ui.i18n import bind_popup_tracking, t
+from print_scanner_app.ui.textinput_focus import focus_text_input
 from print_scanner_app.ui.textinput_paste import enable_ctrl_v_paste
 
 
@@ -19,7 +20,6 @@ def _text_popup(
     on_open: Callable[[object], None],
     validate_nonempty: bool = True,
 ) -> None:
-    from kivy.clock import Clock
     from kivy.uix.boxlayout import BoxLayout
     from kivy.uix.label import Label
     from kivy.uix.popup import Popup
@@ -62,7 +62,7 @@ def _text_popup(
 
     b_ok.bind(on_release=on_ok)
     ti.bind(on_text_validate=lambda *_: on_ok(None))
-    Clock.schedule_once(lambda _dt: ti.focus, 0)
+    focus_text_input(ti)
     on_open(pop)
 
 

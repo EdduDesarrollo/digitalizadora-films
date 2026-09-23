@@ -1077,6 +1077,11 @@ class AppPresenter:
             break
         return None, last_err
 
+    def get_frame(self) -> int:
+        if self._container is None:
+            return 0
+        return int(self._container.app_state.frame_count)
+
     def set_frame(self, frame_value: int) -> int:
         if self._container is None:
             return 0

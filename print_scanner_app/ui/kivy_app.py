@@ -448,8 +448,16 @@ def run_modular_app(
                 refresh_status()
 
             def do_set_frame(_inst=None):
+                from print_scanner_app.ui.textinput_focus import focus_text_input
+
                 box = BoxLayout(orientation="vertical", spacing=8, padding=10)
-                ti = TextInput(text="0", multiline=False, input_filter="int", size_hint_y=None, height=40)
+                ti = TextInput(
+                    text=str(presenter.get_frame()),
+                    multiline=False,
+                    input_filter="int",
+                    size_hint_y=None,
+                    height=40,
+                )
                 row = BoxLayout(orientation="horizontal", spacing=8, size_hint_y=None, height=44)
                 b_ok = MenuButton(text=t("common.apply"), size_hint_x=1)
                 b_cancel = MenuButton(text=t("common.cancel"), size_hint_x=1)
@@ -460,13 +468,22 @@ def run_modular_app(
                 pop = Popup(title=t("frame.edit_title"), content=box, size_hint=(None, None), size=(420, 200))
 
                 def apply_frame(_x):
-                    n = presenter.set_frame(int(ti.text or "0"))
+                    raw = (ti.text or "").strip()
+                    if not raw:
+                        ErrorDialogs.show_error(
+                            t("config.empty_value"),
+                            title=t("frame.edit_title"),
+                        )
+                        return
+                    n = presenter.set_frame(int(raw))
                     logger.info("Frame seteado: %s", n)
                     pop.dismiss()
                     refresh_status()
 
                 b_ok.bind(on_release=apply_frame)
                 b_cancel.bind(on_release=lambda _x: pop.dismiss())
+                ti.bind(on_text_validate=lambda *_: apply_frame(None))
+                focus_text_input(ti)
                 self._open_popup_disabling_hotkeys(pop)
 
             def do_start_dig(_inst=None):
@@ -682,19 +699,31 @@ def run_modular_app(
                 refresh_status()
 
             def do_set_format_popup(_inst=None):
-                box = BoxLayout(orientation="vertical", spacing=8, padding=10)
+                box = BoxLayout(orientation="vertical", spacing=6, padding=[10, 6, 10, 8])
                 formats = ["8mm", "super8", "16mm", "35mm"]
-                row = BoxLayout(orientation="horizontal", spacing=8, size_hint_y=None, height=44)
+                disabled_formats = {"8mm", "super8"}
+                row = BoxLayout(orientation="horizontal", spacing=8, size_hint_y=None, height=56)
                 for fmt in formats:
-                    b = MenuButton(text=fmt, size_hint_x=1)
-                    b.bind(on_release=lambda _x, f=fmt: (set_fmt(f), pop.dismiss()))
+                    label = "35mm\n(beta)" if fmt == "35mm" else fmt
+                    b = MenuButton(text=label, size_hint_x=1, height=56)
+                    if fmt in disabled_formats:
+                        b.disabled = True
+                    else:
+                        b.bind(on_release=lambda _x, f=fmt: (set_fmt(f), pop.dismiss()))
                     row.add_widget(b)
                 box.add_widget(Label(text=t("format.select_label"), size_hint_y=None, height=28))
                 box.add_widget(row)
-                pop = Popup(title=t("format.initial_title"), content=box, size_hint=(None, None), size=(560, 220))
+                pop = Popup(
+                    title=t("format.initial_title"),
+                    content=box,
+                    size_hint=(None, None),
+                    size=(560, 150),
+                )
                 self._open_popup_disabling_hotkeys(pop)
 
             def do_threshold_popup(_inst=None):
+                from print_scanner_app.ui.textinput_focus import focus_text_input
+
                 box = BoxLayout(orientation="vertical", spacing=8, padding=10)
                 ti = TextInput(
                     text=str(presenter.get_threshold()),
@@ -722,6 +751,8 @@ def run_modular_app(
 
                 b_ok.bind(on_release=save_threshold)
                 b_cancel.bind(on_release=lambda _x: pop.dismiss())
+                ti.bind(on_text_validate=lambda *_: save_threshold(None))
+                focus_text_input(ti)
                 self._open_popup_disabling_hotkeys(pop)
 
             def do_umbralizacion_popup(_inst=None):
@@ -1085,7 +1116,9 @@ def run_modular_app(
 
                 b_ok.bind(on_release=on_ok)
                 ti.bind(on_text_validate=lambda *_: on_ok(None))
-                Clock.schedule_once(lambda _dt: ti.focus, 0)
+                from print_scanner_app.ui.textinput_focus import focus_text_input
+
+                focus_text_input(ti)
                 self._open_popup_disabling_hotkeys(pop)
 
             def advance_config_wizard(_inst=None):

@@ -87,6 +87,14 @@ Cuando se comienza a utilizar el software por primera vez, es necesario ingresar
 3. Seleccionar el directorio donde se van a guardar las imágenes.
 4. Ingresar el código de referencia a escanear (Lo que seguiría luego del prefijo - Ej: I-AGU-02-01)
 5. Luego, se debe seleccionar el formato de la película. Por el momento, el sistema funciona con películas de 16 mm (se está trabajando para incluir también las de 35 mm, aunque aún no se ha puesto a prueba con el acervo del archivo). En el futuro también se podrá trabajar con películas de 8mm y Súper 8.
+
+El repositorio versiona `config.json` como `{}` (sin datos de estación). Tras clonar o al desarrollar en local, evitá que tus valores de configuración aparezcan en `git status`:
+
+```bash
+git update-index --skip-worktree config.json
+```
+
+Para volver a ver cambios de ese archivo en git (p. ej. al actualizar el `{}` del repo): `git update-index --no-skip-worktree config.json`.
  
  
 Una vez que se selecciona el formato, en la interfaz del programa se verá el liveview  (visualización en directo) que toma la cámara con tres líneas azules superpuestas al liveview, que sirven para alinear la cámara con la película, el área en rojo donde el sistema buscará la perforación, además de algunos botones de configuración y reproducción  en la parte inferior derecha de la pantalla y en la parte inferior cuatro botones (digitalizar, pausa, mover 1px y Frame x Frame).
