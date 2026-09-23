@@ -117,7 +117,7 @@
   "raw.missing_local_title": "Pending RAWs without local copy",
 
   "printer_clean.title": "Digitization paused",
-  "printer_clean.message": "You must clean the printer!",
+  "printer_clean.message": "You must clean the capture zone!",
   "printer_clean.button": "Close",
 
   "settings.title": "Settings",
@@ -170,5 +170,8 @@
   "capture.hw_preview": "hardware error: could not capture preview ({max_attempts} retries)",
   "capture.hw_shoot": "hardware error: could not trigger capture ({max_attempts} retries)",
   "capture.hw_move": "hardware error: could not move film ({max_attempts} retries)",
-  "capture.realign_move_fail": "failed to move film to realign"
+  "capture.realign_move_fail": "failed to move film to realign",
+
+  "debug.align.help": "Q (exit), E (step), R (continue digitization)",
+  "debug.align.white_px": "White px: {count} side={side}"
 }

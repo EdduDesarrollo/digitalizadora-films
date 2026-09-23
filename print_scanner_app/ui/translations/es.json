@@ -117,7 +117,7 @@
   "raw.missing_local_title": "RAW pendientes sin copia local",
 
   "printer_clean.title": "Digitalización pausada",
-  "printer_clean.message": "Debe de limpiar impresora!",
+  "printer_clean.message": "Debe de limpiar la zona de captura!",
   "printer_clean.button": "Cerrar",
 
   "settings.title": "Ajustes",
@@ -170,5 +170,8 @@
   "capture.hw_preview": "error hardware: no se pudo capturar preview ({max_attempts} reintentos)",
   "capture.hw_shoot": "error hardware: no se pudo disparar captura ({max_attempts} reintentos)",
   "capture.hw_move": "error hardware: no se pudo mover film ({max_attempts} reintentos)",
-  "capture.realign_move_fail": "fallo mover film para realinear"
+  "capture.realign_move_fail": "fallo mover film para realinear",
+
+  "debug.align.help": "Q (salir), E (paso), R (continuar digitalizacion)",
+  "debug.align.white_px": "Px blancos: {count} side={side}"
 }

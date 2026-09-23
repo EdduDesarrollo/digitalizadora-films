@@ -43,6 +43,23 @@ def test_t_switches_language():
     assert i18n.t("btn.digitize") == "Digitize"
 
 
+def test_debug_align_overlay_i18n():
+    i18n.set_language("es")
+    assert i18n.t("debug.align.help") == (
+        "Q (salir), E (paso), R (continuar digitalizacion)"
+    )
+    assert i18n.t("debug.align.white_px", count=42, side="left") == (
+        "Px blancos: 42 side=left"
+    )
+    i18n.set_language("en")
+    assert i18n.t("debug.align.help") == (
+        "Q (exit), E (step), R (continue digitization)"
+    )
+    assert i18n.t("debug.align.white_px", count=42, side="left") == (
+        "White px: 42 side=left"
+    )
+
+
 def test_target_language_label():
     i18n.set_language("es")
     assert i18n.target_language_label() == "EN"

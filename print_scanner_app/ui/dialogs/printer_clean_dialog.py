@@ -8,7 +8,7 @@ from print_scanner_app.ui.i18n import bind_popup_tracking, t
 
 # Literales ES de referencia (tests / docs); la UI usa ``t()``.
 PRINTER_CLEAN_POPUP_TITLE = "Digitalización pausada"
-PRINTER_CLEAN_POPUP_MESSAGE = "Debe de limpiar impresora!"
+PRINTER_CLEAN_POPUP_MESSAGE = "Debe de limpiar la zona de captura!"
 PRINTER_CLEAN_POPUP_BUTTON = "Cerrar"
 
 

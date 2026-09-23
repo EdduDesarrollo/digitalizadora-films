@@ -78,6 +78,8 @@ def show_alignment_debug_windows(
     result: PerforationAlignmentResult,
     *,
     umbral_grey: int,
+    overlay_help: str,
+    overlay_white_px: str,
     logger: logging.Logger | None = None,
 ) -> bool:
     """
@@ -123,7 +125,7 @@ def show_alignment_debug_windows(
         font = cv2_mod.FONT_HERSHEY_SIMPLEX
         cv2_mod.putText(
             bgr,
-            "Q (salir), E (paso), R (continuar digitalizacion)",
+            overlay_help,
             (30, h_img - 20),
             font,
             0.55,
@@ -131,10 +133,9 @@ def show_alignment_debug_windows(
             1,
             cv2_mod.LINE_AA,
         )
-        side = getattr(result, "side", "left")
         cv2_mod.putText(
             bgr,
-            f"Px blancos: {result.white_pixel_count} side={side}",
+            overlay_white_px,
             (30, 28),
             font,
             0.7,

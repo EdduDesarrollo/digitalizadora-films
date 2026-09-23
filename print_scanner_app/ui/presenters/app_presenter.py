@@ -2186,7 +2186,17 @@ class AppPresenter:
             w_rail_max=w_rail_max,
         )
         showed = show_alignment_debug_windows(
-            img, y_roi, res, umbral_grey=ug, logger=self._log
+            img,
+            y_roi,
+            res,
+            umbral_grey=ug,
+            overlay_help=t("debug.align.help"),
+            overlay_white_px=t(
+                "debug.align.white_px",
+                count=res.white_pixel_count,
+                side=getattr(res, "side", "left"),
+            ),
+            logger=self._log,
         )
         if showed and self.alignment_debug_visual_available():
             self._debug_alignment_waiting = True
