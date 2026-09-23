@@ -16,7 +16,7 @@ Con esto en mente, en el Espacio de digitalización de documentos universitarios
 
 <img width="400" height="400" alt="image12" src="https://github.com/user-attachments/assets/7a4aabcb-5ffc-4c54-8df3-e3bd50ba3120" />
 
-2. Una cámara digital compatible con el software gphoto2. http://www.gphoto.org/proj/libgphoto2/support.php
+2. Una cámara digital compatible con el software [gphoto2](http://www.gphoto.org/proj/libgphoto2/support.php).
 
 3. Un lente macro o aros de extensión.
 
@@ -64,7 +64,8 @@ Para este proceso no es exclusivo contar con una impresora de tickets, sino que 
 4. Como fuente de luz se utiliza un plafón genérico de led.
 
 5. Se realizan unas piezas impresas en 3D para colocar la fuente de luz a la misma altura que la entrada de la cinta en la impresora y unas guías para llevar la película sobre la ventana hecha en el soporte.
-Modelo 3d de la guía para película de 16 mm
+
+<em>Los archivos .stl están en la carpeta <a href="docs/">docs</a> del repositorio</em>
 
 6. La cámara con lente macro se sitúa sobre el soporte a una altura adecuada para encuadrar el fotograma. En nuestro caso usamos un pie de una vieja ampliadora fotográfica para sostener la cámara.
 
@@ -87,31 +88,32 @@ Cuando se comienza a utilizar el software por primera vez, es necesario ingresar
 3. Seleccionar el directorio donde se van a guardar las imágenes.
 4. Ingresar el código de referencia a escanear (Lo que seguiría luego del prefijo - Ej: I-AGU-02-01)
 5. Luego, se debe seleccionar el formato de la película. Por el momento, el sistema funciona con películas de 16 mm (se está trabajando para incluir también las de 35 mm, aunque aún no se ha puesto a prueba con el acervo del archivo). En el futuro también se podrá trabajar con películas de 8mm y Súper 8.
-
-El repositorio versiona `config.json` como `{}` (sin datos de estación). Tras clonar o al desarrollar en local, evitá que tus valores de configuración aparezcan en `git status`:
-
-```bash
-git update-index --skip-worktree config.json
-```
-
-Para volver a ver cambios de ese archivo en git (p. ej. al actualizar el `{}` del repo): `git update-index --no-skip-worktree config.json`.
  
- 
-Una vez que se selecciona el formato, en la interfaz del programa se verá el liveview  (visualización en directo) que toma la cámara con tres líneas azules superpuestas al liveview, que sirven para alinear la cámara con la película, el área en rojo donde el sistema buscará la perforación, además de algunos botones de configuración y reproducción  en la parte inferior derecha de la pantalla y en la parte inferior cuatro botones (digitalizar, pausa, mover 1px y Frame x Frame).
+Una vez que se selecciona el formato, en la interfaz del programa se verá el liveview  (visualización en directo) que toma la cámara con tres líneas azules superpuestas al liveview, que sirven para alinear la cámara con la película, el área en rojo donde el sistema buscará la perforación, además de algunos botones de configuración y reproducción  en la parte inferior derecha de la pantalla y en la parte inferior cuatro botones (Digitalizar, Pausar, Mover 1px y Frame x Frame).
 
-Una vez que la película está alineada con la cámara, es necesario ajustar el foco y otras configuraciones de la cámara. Esto se hace a través del programa Entangle, al cual se puede acceder a través del botón “Ajustes” (o presionando la tecla E).  . Una vez realizados los ajustes, se debe retornar al liveview y configurar el nivel de umbralización (tecla y) para que se pueda detactar las perforaciones. Una vez configurado el nivel de umbralización se tiene que setear el nivel mínimo de pixeles blancos. Para esto es necesario activar el debug (g), la pantalla se pintará de rojo, y comenzar la digitalización. Se abrirán dos ventanas, uno con el area que está buscando la perforación y otra con los datos analizados. Con la tecla E avanza 1 px el film y analiza nuevamente con la nueva posición. Una vez que en la ventana se vea la perforación completa, hay que ver la cantidad de pixeles blancos que se detectan en esa zona e ingresar ese valor (tal vez ingresar 500 pixeles menos) en la opción Umbral Px Blancos (u). Luego, si está todo correcto, se puede comenzar el escaneo. 
+Antes de comenzar es necesario ajustar el foco y otras configuraciones de la cámara.
+Esto se hace a través del programa Entangle, al cual se puede acceder a través del botón “Ajustes” (tecla E). Una vez realizados los ajustes, se debe retornar al liveview y configurar el nivel de umbralización (tecla Y) para que se pueda detectar las perforaciones. Una vez configurado el nivel de umbralización se tiene que setear el nivel mínimo de pixeles blancos. Para esto es necesario "Activar Debug" (o tecla G), la pantalla se pintará de rojo, y comenzar la digitalización (tecla Z).
+En ese momento se abren dos ventanas, una con los datos analizados y otra con lo que está detectando en la zona donde busca la perforación.
+En ese momento se pueden hacer tres acciones: 
+1. Cerrar las ventanas con la tecla Q.
+2. Avanzar el film un píxel para que analice nuevamente la nueva posición con la tecla E _(Funciona solo en el debug)_.
+3. Desactivar el modo Debug y reanudar la digitalización de forma normal con la tecla R.
 
-El botón de adelantar (tecla C) permite avanzar de a un píxel hasta la parte que se quiere empezar a digitalizar. El botón de pausa (tecla P), sirve para pausar la digitalización en cualquier momento.Para comenzar el escaneo basta con hacer clic en el botón de Play en la parte inferior de la pantalla, o la tecla Z.
+Lo que nos sirve en esta etapa es avanzar un píxel hasta que la perforación esté completa en la ventana de búsqueda para ver la cantidad de pixeles blancos para ingresar ese valor, o unos pixeles menos, en la opción "Umbral Px Blancos" (tecla U). Luego, si está todo correcto, se puede comenzar el escaneo.
+
+El botón de "Mover 1px" (tecla C) permite avanzar de a un píxel hasta la parte que se quiere empezar a digitalizar.
+El botón de "Pausar" (tecla P), sirve para pausar la digitalización en cualquier momento.
+Para comenzar el escaneo basta con hacer clic en el botón "Digitalizar" (tecla Z).
  
 ## Escaneo
 
-El escaneo comienza con la identificación de la perforación mediante el conteo de la cantidad de píxeles blancos en la zona indicada con el recuadro rojo (aprox. 2500 pixeles). De no identificar la perforación, la impresora mueve la película de a un píxel hasta encontrar la perforación Si no lo encuentra, imprime 1 px para que la impresora mueva la película hasta que encuentre la perforación.
+El escaneo comienza con la identificación de la perforación mediante el conteo de la cantidad de píxeles blancos en la zona indicada con el recuadro rojo. De no identificar la perforación, la impresora mueve la película de a un píxel hasta encontrar la perforación.
 
 Para los casos con más de una perforación por cuadro, como las películas de 35 mm, el sistema cuenta las perforaciones hasta identificar el cambio de cuadro. Luego de esto, el proceso de digitalización es el mismo.
 
-Por el momento, los carretes no cuentan con motores, por lo que es necesario que una persona suelte y recoja la película manualmente. Para acelerar el proceso de escaneo, el sistema no guarda las imágenes en la carpeta de destino sino que  los archivos raws (tif, cr3, u otros según la cámara) se guardan en la tarjeta de memoria de la cámara y se guarda la realación del nombre de la imagen de la cámara con el nombre que debería tener. Cuando existe un archivo raw en la cámara, el botón “Descargar Raws” cambia a color rojo, avisando que hay archivos pendientes de descarga.
+Por el momento, los carretes no cuentan con motores, por lo que es necesario que una persona suelte y recoja la película manualmente. Para acelerar el proceso de escaneo, el sistema no guarda las imágenes en la carpeta de destino sino que  los archivos raws (tif, cr3, u otros según la cámara) se guardan en la tarjeta de memoria de la cámara y se guarda la relación del nombre de la imagen de la cámara con el nombre que debería tener. Cuando existe un archivo raw en la cámara, el botón “Descargar Raws” cambia a color rojo, avisando que hay archivos pendientes de descarga.
 
-Durante el proceso de escaneo es necesario limpiar todo el sistema cada cierta cantidad de fotos por lo que lo configuramos para que se detenga cada 500 cuadros. Usando aire (pera de goma o aire comprimido) se limpia la zona que se captura removiendo cualquier impureza que se pudo haber desprendido de la película. También aprovechamos esa pausa para descargar las imágenes raws, donde el sistema descargará las imagenes y las renombra con el nombre y número que se configuró.
+Durante el proceso de escaneo es necesario limpiar todo el sistema cada cierta cantidad de fotos por lo que lo configuramos para que se detenga cada 500 cuadros. Usando aire (pera de goma o aire comprimido) se limpia la zona que se captura removiendo cualquier impureza que se pudo haber desprendido de la película. También aprovechamos esa pausa para descargar las imágenes raws, donde el sistema descargará las imágenes y las renombra con el nombre y número que se configuró.
  
 ## Posproducción
 
@@ -119,7 +121,7 @@ Una vez que el escaneo de la película está finalizado, se obtiene una secuenci
  
 ## Ventajas y desventajas
 
-La principal ventaja de este sistema es su bajo costo. El componente más caro es la cámara fotográfica, aunque puede utilizarse un cámara sencilla que cumpla con los requisitos de ser compatible con gphoto 2 y contar con un lente macro. Al tratarse de un sistema modular, puede mejorarse progresivamente si se dispone de un presupuesto mayor. En el AGU se utilizó una cámara sin espejo ya descontinuada, de 32 megapíxeles, suficiente para obtener una resolución de 4K (aprox. USD 700), un lente de 50mm (aprox. USD 300) y aros de extensión (aprox. USD 100). La computadora empleada es una de las disponibles en el archivo, con una antigüedad de cuatro años. Las piezas impresas en 3D se produjeron con un equipo muy sencillo, que costó unos USD 300, aunque también pueden fabricarse mediante servicios externos de impresión.
+La principal ventaja de este sistema es su bajo costo. El componente más caro es la cámara fotográfica, aunque puede utilizarse una cámara sencilla que cumpla con los requisitos de ser compatible con gphoto 2 y contar con un lente macro. Al tratarse de un sistema modular, puede mejorarse progresivamente si se dispone de un presupuesto mayor. En el AGU se utilizó una cámara sin espejo ya descontinuada, de 32 megapíxeles, suficiente para obtener una resolución de 4K (aprox. USD 700), un lente de 50mm (aprox. USD 300) y aros de extensión (aprox. USD 100). La computadora empleada es una de las disponibles en el archivo, con una antigüedad de cuatro años. Las piezas impresas en 3D se produjeron con un equipo muy sencillo, que costó unos USD 300, aunque también pueden fabricarse mediante servicios externos de impresión.
 
 Otra ventaja es su sencillez, dado que no es necesario contar con un conocimiento avanzado de informática para instalar y operar el sistema. El sistema también destaca por su versatilidad. Si bien el diseño se desarrolló inicialmente para la digitalización de películas de 16mm, que conforman la parte más voluminosa del acervo del AGU, es posible adaptar las guías y la app para otros formatos.
 
@@ -128,10 +130,9 @@ Una desventaja es que, por el momento, el sistema solamente puede utilizarse en 
 ## Próximos pasos
 
 Como se mencionó anteriormente, este es un proyecto en desarrollo. Tras ponerlo a prueba durante los últimos meses identificamos algunas mejoras a realizar:
-
-Motorizar los carretes de alimentación de película.
-Desarrollar la a adaptación para películas de 35 y 8 mm.
-Mejoras estéticas en la interfaz de usuario.
+- Motorizar los carretes de alimentación de película.
+- Desarrollar la adaptación para películas de 35 y 8 mm.
+- Mejoras estéticas en la interfaz de usuario.
 
 
 ## Guía de Instalación, Configuración y Ejecución de la app
@@ -140,21 +141,21 @@ Este documento proporciona los pasos necesarios para preparar y ejecutar la app 
 
 ## Paso 1: Instalar Python 3
 
-Asegúrate de tener Python 3 instalado en tu sistema. Puedes instalarlo descargandolo desde apt usando la terminal.
+Asegúrate de tener Python 3 instalado en tu sistema. Puedes instalarlo desde apt usando la terminal.
 
    ```bash
    sudo apt update
    sudo apt install python3 python3-pip
    ```
 
-Para corroborar que python3 haya sido instalado correctamente puedes ejectuar el siguiente comando en la terminal:
+Para corroborar que python3 haya sido instalado correctamente puedes ejecutar el siguiente comando en la terminal:
    ```bash
    python3 --version
    ```
 
 ## Paso 2: Instalar dependencias de la app
 
-1. **Instalar paquetes del sistema y accesso directo:**
+1. **Instalar paquetes del sistema y acceso directo:**
 
    Abre una terminal y ejecuta el siguiente comando, desde la raíz del repositorio, para instalar las dependencias de la app:
 
@@ -194,16 +195,7 @@ Para corroborar que python3 haya sido instalado correctamente puedes ejectuar el
 
    Al iniciar el programa te pedirá el número de serie de la cámara si no está configurado en el archivo config.json
 
-4. (Opcional) **Actualizar el Archivo `config.json`:**
-
-   Abre el archivo `config.json` y actualiza el campo `"CAMARA"` con el número de serie obtenido:
-
-   ```json
-   {
-       "CAMARA": "tu_numero_de_serie_aqui"
-   }
-   ```
-
 ---
 
-Con estos pasos completados, deberías estar listo para ejecutar el script sin problemas. Si encuentras algún problema, revisa cada paso para asegurarte de que todo esté configurado correctamente.
+Con estos pasos completados, deberías estar listo para ejecutar la app sin problemas.
+Si encuentras algún problema, revisa cada paso para asegurarte de que todo esté configurado correctamente.
