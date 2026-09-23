@@ -2,12 +2,15 @@
   "PREFIJO_ARCHIVO": "UY-UDELAR-AGU-AIH",
   "CAMARA": "a82b0b424db1497a804145c541d36ea3",
   "DIRECTORIO": "/home/agu/Documentos/Test",
-  "CODIGO_REFERENCIA": "I-AGU-02-01",
-  "CONFIG_CAMARA": {},
+  "CODIGO_REFERENCIA": "TEST-01",
+  "CONFIG_CAMARA": {
+    "main/capturesettings/shutterspeed": "1/60"
+  },
   "UMBRAL_PX_BLANCOS": 2500,
-  "NUMERO_FRAME": 4,
+  "NUMERO_FRAME": 0,
   "DEBUG_CAPTURE_TICK_TRACE": false,
   "FORMATO_DIGITALIZAR": "16mm",
   "UMBRAL_GREY_PERFORACION": 227,
-  "DEBUG_CAPTURA": false
+  "DEBUG_CAPTURA": false,
+  "CAPTURE_TICK_SECONDS": 0.05
 }

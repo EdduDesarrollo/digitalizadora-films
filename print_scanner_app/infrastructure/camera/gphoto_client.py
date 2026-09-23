@@ -533,12 +533,15 @@ def trigger_capture_and_get_raw_name(camera, gp) -> Optional[str]:
     """
     Dispara una captura y retorna el nombre ``.CR3`` (derivado del reportado por gphoto).
 
+    Apaga viewfinder/live view antes del disparo (best-effort). Bloquea hasta que
+    PTP publica el archivo (más fiable que Immediate tras ``capture_preview``).
+
     No descarga archivos. Si ``capture()`` no reporta nombre, delega un fallback
     acotado a ``resolve_raw_name_after_capture`` (listar RAW más reciente una vez).
-
-    Preferir ``trigger_eos_remote_immediate`` en digitación automática (mucho más rápido);
-    este camino bloquea ~hasta que PTP publica el archivo.
     """
+    disable_viewfinder_best_effort(camera, gp)
+    if _VIEWFINDER_OFF_SETTLE_S > 0:
+        time.sleep(_VIEWFINDER_OFF_SETTLE_S)
     file_path = camera.capture(gp.GP_CAPTURE_IMAGE)
     reported = getattr(file_path, "name", None)
     if reported is None:
@@ -588,61 +591,22 @@ def _eosremoterelease_choice_label(widget, gp, *, want_immediate: bool) -> Optio
     return choices[0] if choices else None
 
 
-def trigger_eos_remote_immediate(camera, gp) -> bool:
-    """
-    Dispara still vía ``eosremoterelease=Immediate`` y vuelve a ``None``.
-
-    No espera a que el CR3 sea visible por PTP (típicamente << ``capture()``).
-    """
-    try:
-        config = camera.get_config()
-    except Exception:  # noqa: BLE001
-        return False
-    widget = None
-    for path in _EOSREMOTERELEASE_PATHS:
-        widget = _config_widget_at_path(config, gp, path)
-        if widget is not None:
-            break
-    if widget is None:
-        return False
-    immediate = _eosremoterelease_choice_label(widget, gp, want_immediate=True)
-    if not immediate:
-        return False
-    try:
-        gp.gp_widget_set_value(widget, immediate)
-        camera.set_config(config)
-    except Exception:  # noqa: BLE001
-        return False
-    # Restaurar None (best-effort; el disparo ya se envió).
-    try:
-        config2 = camera.get_config()
-        w2 = None
-        for path in _EOSREMOTERELEASE_PATHS:
-            w2 = _config_widget_at_path(config2, gp, path)
-            if w2 is not None:
-                break
-        if w2 is not None:
-            none_lbl = _eosremoterelease_choice_label(w2, gp, want_immediate=False)
-            if none_lbl:
-                gp.gp_widget_set_value(w2, none_lbl)
-                camera.set_config(config2)
-    except Exception:  # noqa: BLE001
-        pass
-    return True
-
-
 _VIEWFINDER_PATHS = (
     "main/actions/viewfinder",
     "viewfinder",
 )
 
+# Tras apagar EVF, breve asiento PTP antes de Immediate (no espera CR3).
+_VIEWFINDER_OFF_SETTLE_S = 0.08
+
 
 def disable_viewfinder_best_effort(camera, gp) -> bool:
     """
-    Apaga EVF/viewfinder antes de ``camera.exit()`` (best-effort).
+    Apaga EVF/viewfinder (best-effort).
 
-    Reduce el riesgo de dejar la Canon en ``[-110] I/O in progress`` tras
-    live view / ``capture_preview``.
+    Usado antes de Immediate (digitación) y antes de ``camera.exit()``.
+    Reduce el riesgo de still sin archivo en SD o ``[-110] I/O in progress``
+    tras live view / ``capture_preview``.
     """
     try:
         config = camera.get_config()
@@ -678,6 +642,55 @@ def disable_viewfinder_best_effort(camera, gp) -> bool:
         return True
     except Exception:  # noqa: BLE001
         return False
+
+
+def trigger_eos_remote_immediate(camera, gp) -> bool:
+    """
+    Dispara still vía ``eosremoterelease=Immediate`` y vuelve a ``None``.
+
+    Apaga viewfinder/live view antes del disparo (best-effort) para que el
+    still persista en tarjeta; el caller debe reactivar preview después.
+
+    No espera a que el CR3 sea visible por PTP (típicamente << ``capture()``).
+    """
+    disable_viewfinder_best_effort(camera, gp)
+    if _VIEWFINDER_OFF_SETTLE_S > 0:
+        time.sleep(_VIEWFINDER_OFF_SETTLE_S)
+    try:
+        config = camera.get_config()
+    except Exception:  # noqa: BLE001
+        return False
+    widget = None
+    for path in _EOSREMOTERELEASE_PATHS:
+        widget = _config_widget_at_path(config, gp, path)
+        if widget is not None:
+            break
+    if widget is None:
+        return False
+    immediate = _eosremoterelease_choice_label(widget, gp, want_immediate=True)
+    if not immediate:
+        return False
+    try:
+        gp.gp_widget_set_value(widget, immediate)
+        camera.set_config(config)
+    except Exception:  # noqa: BLE001
+        return False
+    # Restaurar None (best-effort; el disparo ya se envió).
+    try:
+        config2 = camera.get_config()
+        w2 = None
+        for path in _EOSREMOTERELEASE_PATHS:
+            w2 = _config_widget_at_path(config2, gp, path)
+            if w2 is not None:
+                break
+        if w2 is not None:
+            none_lbl = _eosremoterelease_choice_label(w2, gp, want_immediate=False)
+            if none_lbl:
+                gp.gp_widget_set_value(w2, none_lbl)
+                camera.set_config(config2)
+    except Exception:  # noqa: BLE001
+        pass
+    return True
 
 
 def raw_exists_on_camera(

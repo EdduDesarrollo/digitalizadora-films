@@ -1095,7 +1095,7 @@ class AppPresenter:
         if self._container is None:
             return 0.4
         cfg = self._container.config_repo.load()
-        raw = cfg.get("CAPTURE_TICK_SECONDS", 0.1)
+        raw = cfg.get("CAPTURE_TICK_SECONDS", 0.05)
         try:
             value = float(raw)
         except (TypeError, ValueError):
@@ -1560,10 +1560,10 @@ class AppPresenter:
 
     def _shoot_immediate_predicted_and_advance(self, *, move_px: int | None = None) -> bool:
         """
-        Immediate → observe_raw(predicho) → delay 1s → move → confirm sondeo → live view UI.
+        Viewfinder off → ``camera.capture()`` → observe_raw(nombre real) → move → live view UI.
 
-        Sin tope de unconfirmed: encola pending hasta pausa manual o ×500.
-        Desync (cámara adelantada vs predicho) sigue pausando.
+        Usa ``capture()`` (no Immediate) para que el still persista en SD tras live view.
+        La predicción solo fija el nombre esperado previo; el pending usa el RAW reportado.
 
         ``move_px``: si se pasa, usa ese avance (35 mm); si None, patrón single-shot.
         """
@@ -1580,25 +1580,42 @@ class AppPresenter:
 
         trace = self._capture_tick_trace_enabled()
         t0 = time.perf_counter() if trace else 0.0
-        ok_trig = self._container.camera_service().trigger_immediate_release(self._capture_session)
+        try:
+            observed = self._container.camera_service().capture_raw_name(
+                self._capture_session
+            )
+        except Exception as e:  # noqa: BLE001
+            self._capture_last_error = str(e)
+            self._log.warning("capture() en digitación falló: %s", e)
+            self.run_pause_digitization()
+            if trace:
+                self._log_post_align_timing(t0=t0, t_after_capture=time.perf_counter())
+            return False
         t_cap = time.perf_counter() if trace else 0.0
-        if not ok_trig:
+        raw_name = (observed or "").strip()
+        if not raw_name:
             self._capture_last_error = t("capture.immediate_fail")
             self.run_pause_digitization()
             if trace:
                 self._log_post_align_timing(t0=t0, t_after_capture=t_cap)
             return False
+        if raw_name.casefold() != predicted.casefold():
+            self._log.info(
+                "Digitación: RAW reportado=%s (predicho=%s)",
+                raw_name,
+                predicted,
+            )
 
         self._capture_last_error = None
-        self._last_captured_raw_name = predicted
+        self._last_captured_raw_name = raw_name
         self._capture_critical_section_active = True
         changed = False
         t_obs = t_move = t_prev = None
         try:
             changed = self._container.capture_service().observe_raw(
                 self._container.app_state,
-                predicted,
-                jpg_name=_jpg_basename_from_raw(predicted),
+                raw_name,
+                jpg_name=_jpg_basename_from_raw(raw_name),
                 allow_when_paused=True,
             )
             if trace:
@@ -1609,14 +1626,14 @@ class AppPresenter:
                 return False
 
             self._unconfirmed_shots.append(
-                _UnconfirmedShot(raw_name=predicted, reserved_at=time.monotonic())
+                _UnconfirmedShot(raw_name=raw_name, reserved_at=time.monotonic())
             )
-            nxt = predict_next_cr3_name(predicted)
+            nxt = predict_next_cr3_name(raw_name)
             self._next_predicted_cr3 = nxt
             if self._capture_tick_trace_enabled():
                 self._log.info(
-                    "CAP-TICK-TRACE immediate predicted=%s unconfirmed=%s next=%s",
-                    predicted,
+                    "CAP-TICK-TRACE capture raw=%s unconfirmed=%s next=%s",
+                    raw_name,
                     len(self._unconfirmed_shots),
                     nxt,
                 )

@@ -791,10 +791,11 @@ def test_resolve_raw_name_cr3_reported_no_walk():
     assert gc.resolve_raw_name_after_capture(Cam(), None, "X.CR3") == "X.CR3"
 
 
-def test_trigger_eos_remote_immediate_sets_immediate():
-    class W:
-        def __init__(self):
-            self.value = "None"
+def test_trigger_eos_remote_immediate_sets_immediate(monkeypatch):
+    monkeypatch.setattr(gc, "_VIEWFINDER_OFF_SETTLE_S", 0.0)
+    order: list[str] = []
+    vf = type("W", (), {"value": 1})()
+    rel = type("W", (), {"value": "None"})()
 
     class GP:
         GP_OK = 0
@@ -805,13 +806,19 @@ def test_trigger_eos_remote_immediate_sets_immediate():
                 return 0, "main"
             if name == "actions":
                 return 0, "actions"
+            if name == "viewfinder":
+                return 0, vf
             if name == "eosremoterelease":
-                return 0, W()
+                return 0, rel
             return -1, None
 
         @staticmethod
         def gp_widget_set_value(widget, value):
             widget.value = value
+            if widget is vf:
+                order.append(f"vf:{value}")
+            elif widget is rel:
+                order.append(f"rel:{value}")
 
         @staticmethod
         def gp_widget_count_choices(widget):
@@ -841,7 +848,10 @@ def test_trigger_eos_remote_immediate_sets_immediate():
 
     cam = Cam()
     assert gc.trigger_eos_remote_immediate(cam, GP()) is True
-    assert len(cam.sets) >= 1
+    assert order[0] == "vf:0"
+    assert "rel:Immediate" in order
+    assert order.index("vf:0") < order.index("rel:Immediate")
+    assert len(cam.sets) >= 2
 
 
 def test_disable_viewfinder_best_effort_sets_zero():

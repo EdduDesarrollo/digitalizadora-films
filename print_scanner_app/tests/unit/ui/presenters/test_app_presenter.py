@@ -25,8 +25,9 @@ def _patch_immediate_shoot_stack(
     latest_cr3: str = "_MG_0001.CR3",
     exists: bool = True,
 ) -> None:
-    """Mocks del camino Immediate + baseline CR3 (digitación automática)."""
+    """Mocks del camino capture() + baseline CR3 (digitación automática)."""
     import print_scanner_app.ui.presenters.app_presenter as ap_mod
+    from print_scanner_app.domain.policies.shot_name_prediction import predict_next_cr3_name
 
     monkeypatch.setattr(ap_mod, "IMMEDIATE_TO_MOVE_DELAY_S", 0.0)
     monkeypatch.setattr(
@@ -34,6 +35,15 @@ def _patch_immediate_shoot_stack(
         "find_latest_raw_name",
         lambda self, _s, _c=None: latest_cr3,
     )
+
+    state = {"last": latest_cr3}
+
+    def _capture_raw_name(self, _s):
+        nxt = predict_next_cr3_name(state["last"]) or state["last"]
+        state["last"] = nxt
+        return nxt
+
+    monkeypatch.setattr(CameraService, "capture_raw_name", _capture_raw_name)
     monkeypatch.setattr(CameraService, "trigger_immediate_release", lambda self, _s: True)
     monkeypatch.setattr(
         CameraService,
@@ -982,8 +992,8 @@ def test_capture_tick_real_reopens_session_on_trigger_error(
     _patch_immediate_shoot_stack(monkeypatch, latest_cr3="_MG_0001.CR3")
     monkeypatch.setattr(
         CameraService,
-        "trigger_immediate_release",
-        lambda self, _s: False,
+        "capture_raw_name",
+        lambda self, _s: None,
     )
     monkeypatch.setattr(CameraService, "capture_preview_jpeg", lambda self, _s: _jpeg_bytes(255))
     monkeypatch.setattr(c, "printer_service", lambda: type("P", (), {"move_film": lambda self, px: True})())
@@ -991,7 +1001,7 @@ def test_capture_tick_real_reopens_session_on_trigger_error(
     assert p.run_start_digitization().ok
     assert not p.run_capture_tick()
     assert c.app_state.pause_digitization
-    assert "Immediate" in (p._capture_last_error or "")
+    assert p._capture_last_error
 
 
 def test_capture_tick_advances_printer_with_config_pattern(tmp_path, test_logger, monkeypatch: pytest.MonkeyPatch):
@@ -1020,7 +1030,7 @@ def test_capture_tick_advances_printer_with_config_pattern(tmp_path, test_logger
         "open_session_for_capture",
         lambda self, *a, **k: (session, None),
     )
-    names = iter(["A.CR3", "B.CR3"])
+    names = iter(["_MG_0002.CR3", "_MG_0003.CR3"])
     monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: next(names))
     monkeypatch.setattr(CameraService, "capture_preview_jpeg", lambda self, _s: _jpeg_bytes(255))
 
@@ -1092,7 +1102,7 @@ def test_capture_tick_skips_shot_when_not_aligned(tmp_path, test_logger, monkeyp
 
     def _capture_raw_name(_self, _sess):
         shot_calls["n"] += 1
-        return "A.CR3"
+        return "_MG_0002.CR3"
 
     monkeypatch.setattr(CameraService, "capture_raw_name", _capture_raw_name)
     moved: list[int] = []
@@ -1208,19 +1218,19 @@ def test_post_align_move_before_liveview_preview(tmp_path, test_logger, monkeypa
         order.append(f"move:{px}")
         return True
 
-    def immediate(self, _s):
-        order.append("immediate")
-        return True
+    def capture(self, _s):
+        order.append("capture")
+        return "_MG_0002.CR3"
 
     monkeypatch.setattr(CameraService, "capture_preview_jpeg", preview)
-    monkeypatch.setattr(CameraService, "trigger_immediate_release", immediate)
+    monkeypatch.setattr(CameraService, "capture_raw_name", capture)
     monkeypatch.setattr(c, "printer_service", lambda: type("P", (), {"move_film": move_film})())
 
     assert p.run_start_digitization().ok
     assert p.run_capture_tick()
-    assert "immediate" in order
+    assert "capture" in order
     assert "move:10" in order
-    assert order.index("immediate") < order.index("move:10")
+    assert order.index("capture") < order.index("move:10")
     assert order.index("move:10") < order.index("preview", order.index("move:10"))
     assert p.last_captured_preview_jpeg() is not None
 
@@ -1250,14 +1260,14 @@ def test_capture_without_raw_name_pauses(tmp_path, test_logger, monkeypatch: pyt
         "open_session_for_capture",
         lambda self, *a, **k: (session, None),
     )
-    monkeypatch.setattr(CameraService, "trigger_immediate_release", lambda self, _s: False)
+    monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: None)
     monkeypatch.setattr(CameraService, "capture_preview_jpeg", lambda self, _s: _jpeg_bytes(255))
     monkeypatch.setattr(c, "printer_service", lambda: type("P", (), {"move_film": lambda self, px: True})())
 
     assert p.run_start_digitization().ok
     assert not p.run_capture_tick()
     assert c.app_state.pause_digitization
-    assert "Immediate" in (p._capture_last_error or "")
+    assert p._capture_last_error
 
 
 def test_alignment_timeout_pauses_and_invokes_callback(tmp_path, test_logger, monkeypatch: pytest.MonkeyPatch):
@@ -1335,11 +1345,11 @@ def test_35mm_mid_phase_moves_pattern_without_extra_capture(tmp_path, test_logge
     )
     raw_calls = {"n": 0}
 
-    def imm(_self, _s):
+    def cap(_self, _s):
         raw_calls["n"] += 1
-        return True
+        return "_MG_0002.CR3"
 
-    monkeypatch.setattr(CameraService, "trigger_immediate_release", imm)
+    monkeypatch.setattr(CameraService, "capture_raw_name", cap)
     monkeypatch.setattr(CameraService, "capture_preview_jpeg", lambda self, _s: _jpeg_bytes(255))
     moved: list[int] = []
 
@@ -1383,7 +1393,7 @@ def test_capture_tick_shoots_when_aligned(tmp_path, test_logger, monkeypatch: py
         lambda self, *a, **k: (session, None),
     )
     monkeypatch.setattr(CameraService, "capture_preview_jpeg", lambda self, _s: _jpeg_bytes(255))
-    monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: "A.CR3")
+    monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: "_MG_0002.CR3")
 
     class FakePrinter:
         def move_film(self, _px):
@@ -1792,7 +1802,7 @@ def test_printer_clean_pause_and_popup_at_interval(tmp_path, test_logger, monkey
         "open_session_for_capture",
         lambda self, *a, **k: (session, None),
     )
-    names = iter(["A.CR3", "B.CR3"])
+    names = iter(["_MG_0002.CR3", "_MG_0003.CR3"])
     monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: next(names))
     monkeypatch.setattr(CameraService, "capture_preview_jpeg", lambda self, _s: _jpeg_bytes(255))
     monkeypatch.setattr(c, "printer_service", lambda: type("P", (), {"move_film": lambda self, px: True})())
@@ -1869,7 +1879,7 @@ def test_printer_clean_not_scheduled_when_advance_film_fails(
         "open_session_for_capture",
         lambda self, *a, **k: (session, None),
     )
-    names = iter(["A.CR3", "B.CR3"])
+    names = iter(["_MG_0002.CR3", "_MG_0003.CR3"])
     monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: next(names))
     monkeypatch.setattr(CameraService, "capture_preview_jpeg", lambda self, _s: _jpeg_bytes(255))
     moves = {"n": 0}
@@ -1939,7 +1949,7 @@ def test_printer_clean_warns_when_popup_callback_missing(
         "open_session_for_capture",
         lambda self, *a, **k: (session, None),
     )
-    names = iter(["A.CR3", "B.CR3"])
+    names = iter(["_MG_0002.CR3", "_MG_0003.CR3"])
     monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: next(names))
     monkeypatch.setattr(CameraService, "capture_preview_jpeg", lambda self, _s: _jpeg_bytes(255))
     monkeypatch.setattr(c, "printer_service", lambda: type("P", (), {"move_film": lambda self, px: True})())
@@ -2001,7 +2011,7 @@ def test_increment_and_set_frame_persist_numero_frame(tmp_path, test_logger):
     assert data.get("NUMERO_FRAME") == 10
 
 
-def _make_presenter_with_session(tmp_path, test_logger, monkeypatch, *, raw_name="A.CR3", move_film_ok=True):
+def _make_presenter_with_session(tmp_path, test_logger, monkeypatch, *, raw_name="_MG_0002.CR3", move_film_ok=True):
     """Helper: presenter con sesión de captura simulada, listo para correr capture_tick."""
     import json
 
@@ -2147,7 +2157,7 @@ def test_observe_raw_persists_numero_frame_via_callback(tmp_path, test_logger, m
         "open_session_for_capture",
         lambda self, *a, **k: (session, None),
     )
-    monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: "A.CR3")
+    monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: "_MG_0002.CR3")
     monkeypatch.setattr(CameraService, "capture_preview_jpeg", lambda self, _s: _jpeg_bytes(255))
     monkeypatch.setattr(c, "printer_service", lambda: type("P", (), {"move_film": lambda self, px: True})())
 
@@ -2216,7 +2226,7 @@ def test_frame_by_frame_works_when_paused(
 
     session = CameraSession(gp=None, camera=Cam(), usb_address="usb:0")
     p._preview_session = session
-    monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: "PAUSED.CR3")
+    monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: "_MG_0002.CR3")
 
     r = p.run_capture_frame_by_frame()
     assert r.ok
@@ -2285,7 +2295,7 @@ def test_frame_by_frame_printer_clean_popup_without_pause(
 
     session = CameraSession(gp=None, camera=Cam(), usb_address="usb:0")
     p._preview_session = session
-    monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: "CLEAN.CR3")
+    monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: "_MG_0002.CR3")
 
     popup_calls: list[int] = []
     refresh_calls: list[int] = []
@@ -2368,7 +2378,7 @@ def test_frame_by_frame_waits_for_preview_io_idle(
         "_wait_preview_io_idle",
         lambda timeout_s: wait_calls.append(timeout_s) or True,
     )
-    monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: "WAIT.CR3")
+    monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: "_MG_0002.CR3")
 
     assert p.run_capture_frame_by_frame().ok
     assert wait_calls and wait_calls[0] > 0
