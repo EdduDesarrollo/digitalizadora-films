@@ -699,7 +699,7 @@ def run_modular_app(
                 refresh_status()
 
             def do_set_format_popup(_inst=None):
-                box = BoxLayout(orientation="vertical", spacing=6, padding=[10, 6, 10, 8])
+                box = BoxLayout(orientation="vertical", spacing=6, padding=[10, 16, 10, 8])
                 formats = ["8mm", "super8", "16mm", "35mm"]
                 disabled_formats = {"8mm", "super8"}
                 row = BoxLayout(orientation="horizontal", spacing=8, size_hint_y=None, height=56)
@@ -717,7 +717,7 @@ def run_modular_app(
                     title=t("format.initial_title"),
                     content=box,
                     size_hint=(None, None),
-                    size=(560, 150),
+                    size=(560, 160),
                 )
                 self._open_popup_disabling_hotkeys(pop)
 
