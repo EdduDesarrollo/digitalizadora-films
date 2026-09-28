@@ -1918,6 +1918,96 @@ def test_printer_clean_latch_reset_on_stop(tmp_path, test_logger):
     assert p.get_last_printer_clean_pause_frame() is None
 
 
+def test_printer_clean_latch_cleared_when_set_frame_below_last(tmp_path, test_logger):
+    (tmp_path / "config.json").write_text(json.dumps({"CAMARA": "X"}), encoding="utf-8")
+    c = Container(tmp_path, "pclatch_set", test_logger)
+    p = AppPresenter(container=c, logger=test_logger)
+    p._last_printer_clean_pause_frame = 500
+    p._printer_clean_pending_schedule_for_frame = 500
+    assert p.set_frame(450) == 450
+    assert p.get_last_printer_clean_pause_frame() is None
+    assert p._printer_clean_pending_schedule_for_frame is None
+    p._last_printer_clean_pause_frame = 500
+    assert p.set_frame(500) == 500
+    assert p.get_last_printer_clean_pause_frame() == 500
+    assert p.increment_frame(-50) == 450
+    assert p.get_last_printer_clean_pause_frame() is None
+
+
+def test_printer_clean_pauses_again_after_set_frame_below_and_resume(
+    tmp_path, test_logger, monkeypatch: pytest.MonkeyPatch
+):
+    """Pausa en N → set_frame < N → resume → al volver a N pausa otra vez."""
+    import print_scanner_app.ui.presenters.app_presenter as ap_mod
+
+    monkeypatch.setattr(ap_mod, "PRINTER_CLEAN_FRAME_INTERVAL", 2)
+    (tmp_path / "config.json").write_text(
+        json.dumps(
+            {
+                "CAMARA": "X",
+                "UMBRAL_PX_BLANCOS": 100,
+                "UMBRAL_GREY_PERFORACION": 245,
+            }
+        ),
+        encoding="utf-8",
+    )
+    c = Container(tmp_path, "pc500_retry", test_logger)
+    p = AppPresenter(container=c, logger=test_logger)
+
+    class Cam:
+        def exit(self):
+            return None
+
+    session = CameraSession(gp=None, camera=Cam(), usb_address="usb:0")
+    monkeypatch.setattr(
+        CameraService,
+        "open_session_for_capture",
+        lambda self, *a, **k: (session, None),
+    )
+    names = iter(
+        [
+            "_MG_0001.CR3",
+            "_MG_0002.CR3",
+            "_MG_0003.CR3",
+            "_MG_0004.CR3",
+        ]
+    )
+    monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: next(names))
+    monkeypatch.setattr(CameraService, "capture_preview_jpeg", lambda self, _s: _jpeg_bytes(255))
+    monkeypatch.setattr(c, "printer_service", lambda: type("P", (), {"move_film": lambda self, px: True})())
+
+    popup_calls: list[int] = []
+    p.register_printer_clean_popup_callback(lambda: popup_calls.append(1))
+    p.register_printer_clean_refresh_status_callback(lambda: None)
+
+    class FakeClock:
+        @staticmethod
+        def schedule_once(cb, t=0):
+            cb(0)
+
+    _install_fake_kivy_clock(monkeypatch, FakeClock)
+
+    assert p.run_start_digitization().ok
+    assert p.run_capture_tick()
+    assert c.app_state.frame_count == 1
+    assert popup_calls == []
+    assert p.run_capture_tick()
+    assert c.app_state.frame_count == 2
+    assert c.app_state.pause_digitization
+    assert p.get_last_printer_clean_pause_frame() == 2
+    assert popup_calls == [1]
+
+    assert p.set_frame(1) == 1
+    assert p.get_last_printer_clean_pause_frame() is None
+    assert p.run_resume_digitization().ok
+    assert not c.app_state.pause_digitization
+    assert p.run_capture_tick()
+    assert c.app_state.frame_count == 2
+    assert c.app_state.pause_digitization
+    assert p.get_last_printer_clean_pause_frame() == 2
+    assert popup_calls == [1, 1]
+
+
 def test_printer_clean_warns_when_popup_callback_missing(
     tmp_path, test_logger, monkeypatch: pytest.MonkeyPatch, caplog: pytest.LogCaptureFixture
 ):
@@ -2320,6 +2410,53 @@ def test_frame_by_frame_printer_clean_popup_without_pause(
     assert p.get_last_printer_clean_pause_frame() == 2
     assert popup_calls == [1]
     assert refresh_calls == [1]
+
+
+def test_frame_by_frame_printer_clean_popup_again_after_set_frame_below(
+    tmp_path, test_logger, monkeypatch: pytest.MonkeyPatch
+):
+    import print_scanner_app.ui.presenters.app_presenter as ap_mod
+
+    monkeypatch.setattr(ap_mod, "PRINTER_CLEAN_FRAME_INTERVAL", 2)
+    (tmp_path / "config.json").write_text(
+        json.dumps({"CAMARA": "X", "DIRECTORIO": str(tmp_path)}),
+        encoding="utf-8",
+    )
+    c = Container(tmp_path, "fxf_clean_retry", test_logger)
+    p = AppPresenter(container=c, logger=test_logger)
+    c.app_state.frame_count = 1
+
+    class Cam:
+        def exit(self):
+            return None
+
+    session = CameraSession(gp=None, camera=Cam(), usb_address="usb:0")
+    p._preview_session = session
+    names = iter(["_MG_0002.CR3", "_MG_0003.CR3"])
+    monkeypatch.setattr(CameraService, "capture_raw_name", lambda self, _s: next(names))
+
+    popup_calls: list[int] = []
+    p.register_printer_clean_popup_callback(lambda: popup_calls.append(1))
+    p.register_printer_clean_refresh_status_callback(lambda: None)
+
+    class FakeClock:
+        @staticmethod
+        def schedule_once(cb, t=0):
+            cb(0)
+
+    _install_fake_kivy_clock(monkeypatch, FakeClock)
+
+    assert p.run_capture_frame_by_frame().ok
+    assert c.app_state.frame_count == 2
+    assert p.get_last_printer_clean_pause_frame() == 2
+    assert popup_calls == [1]
+
+    assert p.set_frame(1) == 1
+    assert p.get_last_printer_clean_pause_frame() is None
+    assert p.run_capture_frame_by_frame().ok
+    assert c.app_state.frame_count == 2
+    assert p.get_last_printer_clean_pause_frame() == 2
+    assert popup_calls == [1, 1]
 
 
 def test_frame_by_frame_camera_access_blocked_while_busy(tmp_path, test_logger):
