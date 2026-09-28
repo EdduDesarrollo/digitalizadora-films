@@ -271,6 +271,16 @@ class AppPresenter:
         self._last_printer_clean_pause_frame = None
         self._printer_clean_pending_schedule_for_frame = None
 
+    def _invalidate_printer_clean_latch_if_frame_below(self, frame_value: int) -> None:
+        """
+        Si el operador baja ``frame_count`` por debajo del múltiplo ya "consumido"
+        (p. ej. pausa en 500 → set 450), el próximo cruce de ese múltiplo debe
+        volver a disparar pausa/popup de limpieza.
+        """
+        last = self._last_printer_clean_pause_frame
+        if last is not None and int(frame_value) < int(last):
+            self._reset_printer_clean_latch()
+
     def _reset_digitization_film_navigation(self) -> None:
         """Reinicia contadores de búsqueda y máquina 35 mm (digitación iniciada, reanudada, timeout, stop)."""
         self._alignment_search_attempts = 0
@@ -929,6 +939,7 @@ class AppPresenter:
         if self._container is None:
             return 0
         self._container.app_state.frame_count = max(0, self._container.app_state.frame_count + int(delta))
+        self._invalidate_printer_clean_latch_if_frame_below(self._container.app_state.frame_count)
         try:
             self._persist_numero_frame()
         except Exception as e:  # noqa: BLE001
@@ -1086,6 +1097,7 @@ class AppPresenter:
         if self._container is None:
             return 0
         self._container.app_state.frame_count = max(0, int(frame_value))
+        self._invalidate_printer_clean_latch_if_frame_below(self._container.app_state.frame_count)
         try:
             self._persist_numero_frame()
         except Exception as e:  # noqa: BLE001
